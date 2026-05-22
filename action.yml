@@ -8,6 +8,8 @@ runs:
   using: composite
   steps:
   - shell: bash
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     run: |
       case ${{ runner.arch }} in
       X86)   arch=i686;;
