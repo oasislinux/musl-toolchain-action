@@ -9,7 +9,7 @@ runs:
   steps:
   - shell: bash
     run: |
-      case ${{ runner.arch }} of
+      case ${{ runner.arch }} in
       X86)   arch=i686;;
       X64)   arch=x86_64;;
       ARM64) arch=aarch64;;
