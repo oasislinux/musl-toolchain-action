@@ -1,0 +1,20 @@
+name: musl-toolchain
+inputs:
+  target:
+    type: string
+  release:
+    type: string
+runs:
+  using: composite
+  steps:
+  - run: |
+      case ${{ runner.arch }} of
+      X86)   arch=i686;;
+      X64)   arch=x86_64;;
+      ARM64) arch=aarch64;;
+      *)     exit 1;;
+      esac
+      cd "$RUNNER_TEMP"
+      archive="toolchain-$arch_${{ inputs.target }}.tar.zst"
+      gh release download ${{ inputs.release }} -R oasislinux/musl-cross-make -p "$archive" -O - | zstd -dc | tar -xf -
+      echo "$PWD/toolchain-$arch/bin" >>"$GITHUB_PATH"
