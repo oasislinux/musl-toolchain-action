@@ -8,8 +8,6 @@ runs:
   using: composite
   steps:
   - shell: bash
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     run: |
       case ${{ runner.arch }} in
       X86)   arch=i686;;
@@ -19,5 +17,6 @@ runs:
       esac
       cd "$RUNNER_TEMP"
       archive="toolchain-$arch_${{ inputs.target }}.tar.zst"
-      gh release download ${{ inputs.release }} -R oasislinux/musl-cross-make -p "$archive" -O - | zstd -dc | tar -xf -
+      url="https://github.com/oasislinux/musl-cross-make/releases/${{ case(inputs.release != '', format('download/{0}', inputs.release), 'latest/download') }}/$archive"
+      curl -fsSL "$url" | zstd -dc | tar -xf -
       echo "$PWD/toolchain-$arch/bin" >>"$GITHUB_PATH"
