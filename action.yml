@@ -7,7 +7,8 @@ inputs:
 runs:
   using: composite
   steps:
-  - run: |
+  - shell: bash
+    run: |
       case ${{ runner.arch }} of
       X86)   arch=i686;;
       X64)   arch=x86_64;;
