@@ -16,7 +16,7 @@ runs:
       *)     exit 1;;
       esac
       cd "$RUNNER_TEMP"
-      archive="toolchain-$arch_${{ inputs.target }}.tar.zst"
+      archive="toolchain-${arch}_${{ inputs.target }}.tar.zst"
       url="https://github.com/oasislinux/musl-cross-make/releases/${{ case(inputs.release != '', format('download/{0}', inputs.release), 'latest/download') }}/$archive"
       curl -fsSL "$url" | zstd -dc | tar -xf -
       echo "$PWD/toolchain-$arch/bin" >>"$GITHUB_PATH"
